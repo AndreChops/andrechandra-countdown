@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html ng-app="countdown" ng-controller="myCtrl">
+    <head>
+        <script src="angular.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Quiz PTI-LAB</title>
+
+        <script>
+          var app = angular.module("countdown", []);
+          app.controller('myCtrl', function($scope) {
+            let hours = 0;
+            let minutes = 0;
+            let seconds = 0;
+
+            /*Increase Function*/
+            $scope.increaseHour = function(){
+              hours += 1;
+
+              if (hours < 24){
+                hours < 10 ? $scope.hour = "0" + hours : $scope.hour = hours;
+              }
+              else {
+                $scope.hour = "00";
+                hours = 0;
+              }
+            }
+
+            $scope.increaseMinute = function(){
+              minutes += 1;
+
+              if (minutes < 60){
+                minutes < 10 ? $scope.minute = "0" + minutes : $scope.minute = minutes;
+              }
+              else {
+                $scope.minute = "00";
+                minutes = 0;
+              }
+            }
+
+            $scope.increaseSecond = function(){
+              seconds += 1;
+
+              if (seconds < 60){
+                seconds < 10 ? $scope.second = "0" + seconds : $scope.second = seconds;
+              }
+              else {
+                $scope.second = "00";
+                seconds = 0;
+              }
+            }
+
+            /*Decrease Function*/
+            $scope.decreaseHour = function(){
+              hours -= 1;
+
+              if (hours >= 0){
+                hours < 10 ? $scope.hour = "0" + hours : $scope.hour = hours;
+              }
+              else {
+                hours = 23;
+                $scope.hour = hours;
+              }
+            }
+
+            $scope.decreaseMinute = function(){
+              minutes -= 1;
+
+              if (minutes >= 0){
+                minutes < 10 ? $scope.minute = "0" + minutes : $scope.minute = minutes;
+              }
+              else {
+                minutes = 59;
+                $scope.minute = minutes;
+              }
+            }
+
+            $scope.decreaseSecond = function(){
+              seconds -= 1;
+
+              if (seconds >= 0){
+                seconds < 10 ? $scope.second = "0" + seconds : $scope.second = seconds;
+              }
+              else {
+                seconds = 59;
+                $scope.second = seconds;
+              }
+            }
+
+            /*Timer Function*/
+
+
+          });
+        </script>
+    </head>
+    <body>
+        <div class="wrapper">
+            <p id="title">⏱SIMPLE COUNTDOWN⏱</p>
+            <div class="up">
+                <div class="increase" ng-click="increaseHour()"></div>
+                <div class="increase" ng-click="increaseMinute()"></div>
+                <div class="increase" ng-click="increaseSecond()"></div>
+            </div>
+            <div>
+                <span class="time" ng-init="hour = '00'">{{hour}}</span>
+                <span class="time" >:</span>
+                <span class="time" ng-init="minute = '00'">{{minute}}</span>
+                <span class="time" >:</span>
+                <span class="time" ng-init="second = '00'">{{second}}</span>
+            </div>
+            <div class="down">
+                <div class="decrease" ng-click="decreaseHour()"></div>
+                <div class="decrease" ng-click="decreaseMinute()"></div>
+                <div class="decrease" ng-click="decreaseSecond()"></div>
+            </div>
+            <div id="start-button">
+                <p id="start" ng-click="startTimer()">START</p>
+            </div>
+        </div>
+    </body>
+
+
+
+</html>
