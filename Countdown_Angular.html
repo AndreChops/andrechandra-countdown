@@ -8,10 +8,12 @@
 
         <script>
           var app = angular.module("countdown", []);
-          app.controller('myCtrl', function($scope) {
-            let hours = 0;
-            let minutes = 0;
-            let seconds = 0;
+          app.controller("myCtrl", function($scope, $interval) {
+            var hours = 0;
+            var minutes = 0;
+            var seconds = 0;
+
+            var timer;
 
             /*Increase Function*/
             $scope.increaseHour = function(){
@@ -87,15 +89,92 @@
               }
             }
 
-            /*Timer Function*/
+            /* Scope Timer Function*/
+            $scope.stopTimer = function(){
+              if (angular.isDefined(timer)) {
+                $interval.cancel(timer);
+                timer = undefined;
 
+                document.getElementById("resume").style.display="none";
+                document.getElementById("pause").style.display="none";
+                document.getElementById("reset").style.display="block";
+              }
+            }
+
+            $scope.startTimer = function(){
+              if (angular.isDefined(timer)) return;
+
+              document.getElementById("start").style.display="none";
+              document.getElementById("remaining").style.display="block";
+              document.querySelector(".up").style.display="none";
+              document.querySelector(".down").style.display="none";
+              document.getElementById("pause").style.display="block";
+
+              timer = $interval(function(){
+                let totalTime = (hours*3600) + (minutes*60) + (seconds);
+                totalTime-=1;
+
+                if (totalTime >= 0){
+                  hours = Math.floor(totalTime / 3600);
+                  minutes = Math.floor((totalTime % 3600) / 60);
+                  seconds = Math.floor(((totalTime % 3600) % 60));
+
+                  hours < 10 ? $scope.hour = "0" + hours : $scope.hour = hours;
+                  minutes < 10 ? $scope.minute = "0" + minutes : $scope.minute = minutes;
+                  seconds < 10 ? $scope.second = "0" + seconds : $scope.second = seconds;
+                }
+                else{
+                  $scope.stopTimer();
+                  document.getElementById("remaining").style.display="none";
+                  document.querySelector("body").style.background="lightgreen";
+                  document.getElementById("timeUp").style.display="block";
+                }
+              }, 1000);
+            }
+
+            $scope.pauseTimer = function(){
+              $scope.stopTimer();
+              document.getElementById("pause").style.display="none";
+              document.getElementById("resume").style.display="block";
+              document.getElementById("reset").style.display="block";
+            }
+
+            $scope.resumeTimer = function(){
+              $scope.startTimer();
+              document.getElementById("resume").style.display="none";
+              document.getElementById("reset").style.display="none";
+            }
+
+            $scope.resetTimer = function(){
+              document.querySelector(".up").style.display="flex";
+              document.querySelector(".down").style.display="flex";
+              document.getElementById("remaining").style.display="none";
+              document.getElementById("resume").style.display="none";
+              document.getElementById("reset").style.display="none";
+              document.getElementById("start").style.display="block";
+              document.querySelector("body").style.background="aqua";
+              document.getElementById("timeUp").style.display="none";
+
+              hours = 0;
+              minutes = 0;
+              seconds = 0;
+
+              $scope.hour = "00";
+              $scope.minute = "00";
+              $scope.second = "00";
+            }
 
           });
         </script>
     </head>
+
+
+
     <body>
         <div class="wrapper">
-            <p id="title">⏱SIMPLE COUNTDOWN⏱</p>
+            <div id="title">⏱SIMPLE COUNTDOWN⏱</div>
+            <div id="remaining">Time Remaining</div>
+            <div id="timeUp">BOOOM!!!!!</div>
             <div class="up">
                 <div class="increase" ng-click="increaseHour()"></div>
                 <div class="increase" ng-click="increaseMinute()"></div>
@@ -113,8 +192,15 @@
                 <div class="decrease" ng-click="decreaseMinute()"></div>
                 <div class="decrease" ng-click="decreaseSecond()"></div>
             </div>
-            <div id="start-button">
-                <p id="start" ng-click="startTimer()">START</p>
+            <div class="buttons">
+                <div class="button" id="start" ng-click="startTimer()">START</div>
+            </div>
+            <div class="buttons">
+                <div class="button" id="pause" ng-click="pauseTimer()">PAUSE</div>
+            </div>
+            <div class="buttons" id="paused">
+                <div class="button" id="resume" ng-click="resumeTimer()">Resume</div>
+                <div class="button" id="reset" ng-click="resetTimer()">Reset</div>
             </div>
         </div>
     </body>

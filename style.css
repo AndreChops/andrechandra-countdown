@@ -4,7 +4,6 @@ body{
 
 .wrapper {
     padding-top: 125px;
-    max-width: 500px;
     margin: auto;
     text-align: center;
 }
@@ -13,7 +12,20 @@ body{
     font-size: 30px;
     font-weight: bold;
     font-family:Verdana,sans-serif;
-    padding-bottom: 100px;
+    padding-bottom: 30px;
+}
+
+#remaining{
+  font-size: 30px;
+  padding-bottom: 30px;
+  display: none;
+}
+
+#timeUp{
+  font-size: 30px;
+  font-weight: bold;
+  padding-bottom: 30px;
+  display: none;
 }
 
 .time{
@@ -24,6 +36,7 @@ body{
 
 /*Up and Down Buttons*/
 .up{
+    padding-top: 45px;
     display: flex;
     justify-content: center;
 }
@@ -51,18 +64,40 @@ body{
     margin: 0 15px;
 }
 
-/*Start Button*/
-#start-button{
+/*Functional Buttons*/
+.buttons{
     margin: 30px 0 0;
 }
 
-#start{
-    width: 70px;
-    padding: 5px 40px;
-    font-size: 20px;
-    font-weight: bold;
-    margin: auto;
+.button{
+    width: 150px;
+    padding: 5px;
+    font-size: 30px;
+    margin: 10px;
     background-color: darkgray;
     font-family:Verdana,sans-serif;
 }
 
+#start{
+  margin: auto;
+}
+
+#pause{
+  display: none;
+  margin: auto;
+  margin-top: 50px;
+}
+
+#reset{
+  background-color: rgb(255, 99, 102);
+}
+
+#resume, #reset{
+  display: none;
+  margin-top: 20px;
+}
+
+#paused{
+  display: flex;
+  justify-content: center;
+}
